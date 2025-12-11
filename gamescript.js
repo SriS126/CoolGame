@@ -67,7 +67,7 @@ function update() {
 
 function startQuiz() {
    // starts the quizz
-    this.sound.play('interactionSound'); // FILL IN LATER
+    this.soundguhjgkjjkjjjjjkkkjju.play('interactionSound'); // FILL IN LATER
 
     
         const quizText = this.add.text(200, 150, 'Hey there! what is the first step in entrepreneurship?', {
