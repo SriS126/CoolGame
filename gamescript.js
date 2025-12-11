@@ -29,4 +29,24 @@ function create() {
     // player 
     this.player = this.physics.add.sprite(100, 100, 'player');
     this.player.setInteractive(); 
+    this.npc = this.physics.add.sprite(300, 300, 'npc');
+    this.npc.setInteractive(); // click on npc, might change to walk up or somethn
+
+    // dialogue
+    const welcomeText = this.add.text(10, 10, 'Hello traveler! I am Stock, lets get you on some business stuff!', {
+        font: '32px Arial',
+        fill: '#ffffff'
+    });
+
+
+
+    // npc stuff
+        this.input.on('gameobjectdown', (pointer, gameObject) => {
+            if (gameObject === this.npc) {
+            startQuiz.call(this); 
+            }
+     });
 }
+
+
+// aweweareasesrsaeaaweewawaewaresreswaeaweawaaawaweafeshyaa
