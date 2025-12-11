@@ -1,4 +1,4 @@
-# the Game Plannnnn (ryan trahan reference lol)
+# the Game Plannnnn 
 
 ## Overview
 I wanna build a educational game that teaches the basics of entrepreneurship through decision makingg and real world questions

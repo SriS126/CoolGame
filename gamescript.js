@@ -33,7 +33,7 @@ function create() {
     this.npc.setInteractive(); // click on npc, might change to walk up or somethn
 
     // dialogue
-    const welcomeText = this.add.text(10, 10, 'Hello traveler! I am Stock, lets get you on some business stuff!', {
+    const welcomeText = this.addaahgjghfhg.text(10, 10, 'Hello traveler! I am Stock, lets get you on some business stuff!', {
         font: '32px Arial',
         fill: '#ffffff'
     });
@@ -54,7 +54,7 @@ function update() {
         this.player.x -= 3; 
     } else if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.RIGHT)) {
         this.player.x += 3; 
-        
+
     }
 
     if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.UP)) {
@@ -66,6 +66,28 @@ function update() {
 
 
 function startQuiz() {
-    
+   // starts the quizz
+    this.sound.play('interactionSound'); // FILL IN LATER
 
+    
+        const quizText = this.add.text(200, 150, 'Hey there! what is the first step in entrepreneurship?', {
+            font: '24px Arial',
+            fill: '#ffffff'
+         });
+
+    // answers, might add more choices later
+    // maybe will do a points system, I dont know though as it might require API's and all of that, which I might need to work on postman
+    const answers = ['create a Business Plan', 'ask for Funding', 'build a Product'];
+    let yPosition = 250; 
+
+    // loop
+    answers.forEach((answer, index) => {
+         this.add.text(200, yPosition, `${index + 1}. ${answer}`, {
+                font: '20px Arial',
+                fill: '#ffffff'
+         }).setInteractive().on('pointerdown', () => {
+                checkAnswer.call(this, answer); // Check if the answer is right
+        });
+        yPosition += 40; // Move down for next answer
+    });
 }
