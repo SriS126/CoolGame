@@ -48,5 +48,24 @@ function create() {
      });
 }
 
+function update() {
+    // arrowwwwws
+    if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.LEFT)) {
+        this.player.x -= 3; 
+    } else if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.RIGHT)) {
+        this.player.x += 3; 
+        
+    }
 
-// aweweareasesrsaeaaweewawaewaresreswaeaweawaaawaweafeshyaa
+    if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.UP)) {
+        this.player.y -= 3; 
+    } else if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.DOWN)) {
+        this.player.y += 3;
+    }
+}
+
+
+function startQuiz() {
+    
+
+}
