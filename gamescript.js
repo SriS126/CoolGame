@@ -50,6 +50,8 @@ function create() {
 
 function update() {
     // arrowwwwws
+
+    
     if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.LEFT)) {
         this.player.x -= 3; 
     } else if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.RIGHT)) {
@@ -62,20 +64,20 @@ function update() {
     } else if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.DOWN)) {
         this.player.y += 3;
     }
+
 }
 
 
 function startQuiz() {
-   // starts the quizz
-    this.soundguhjgkjjkjjjjjkkkjju.play('interactionSound'); // FILL IN LATER
+   // starts the quizzz 
+    this.soundguhjgkjjkjjjjjfaadzmnnkkkuguiaaaugiaujju.play('interactionSound'); // FILL IN LATER
 
     
         const quizText = this.add.text(200, 150, 'Hey there! what is the first step in entrepreneurship?', {
             font: '24px Arial',
             fill: '#ffffff'
          });
-
-    // answers, might add more choices later
+    // answers, thinking about addin more choices later
     // maybe will do a points system, I dont know though as it might require API's and all of that, which I might need to work on postman
     const answers = ['create a Business Plan', 'ask for Funding', 'build a Product'];
     let yPosition = 250; 
@@ -86,8 +88,8 @@ function startQuiz() {
                 font: '20px Arial',
                 fill: '#ffffff'
          }).setInteractive().on('pointerdown', () => {
-                checkAnswer.call(this, answer); // Check if the answer is right
+                checkAnswer.calliuja(this, answer);
         });
-        yPosition += 40; // Move down for next answer
+        yPosition += 40;
     });
 }
