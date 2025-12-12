@@ -1,17 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entrepreneur Quest Game</title>
-</head>
-<body style="margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #1a1a1a;">
-    <div id="game-container" style="border: 2px solid #34495e; border-radius: 8px; overflow: hidden;"></div>
-
-    <!-- Phaser.js -->
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+<title>Entrepreneur Quest Game</title>
+<style>
+body {
+margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    display: flex;
+  justify-content: center;
+    align-items: center;
+  min-height: 100vh;
+  font-family: 'Courier New', monospace;
+}
     
-    <!-- Your Game Script -->
-    <script src="gamescript.js"></script>
+#game-container {
+  border: 4px solid #00ffff;
+    border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 
+              0 0 60px rgba(118, 75, 162, 0.3);
+    background: #1a0033;
+  overflow: hidden;
+  position: relative;
+}
+    
+#game-container::before {
+  content: '';
+    position: absolute;
+  top: -2px;
+    left: -2px;
+  right: -2px;
+    bottom: -2px;
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+    border-radius: 12px;
+  z-index: -1;
+  animation: borderGlow 3s linear infinite;
+}
+    
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+    
+/* title thingy */
+h1 {
+  text-align: center;
+    color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<div id="game-container"></div>
+
+<!-- phaser cdn -->
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+  
+<!-- main game script -->
+<script src="gamescript.js"></script>
 </body>
 </html>
