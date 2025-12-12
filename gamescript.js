@@ -33,7 +33,7 @@ function create() {
     this.npc.setInteractive(); // click on npc, might change to walk up or somethn
 
     // dialogue
-    const welcomeText = this.addaahgjghfhg.text(10, 10, 'Hello traveler! I am Stock, lets get you on some business stuff!', {
+    const welcomeText = this.add.text(10, 10, 'Hello traveler! I am Stock, lets get you on some business stuff!', {
         font: '32px Arial',
         fill: '#ffffff'
     });
@@ -51,7 +51,7 @@ function create() {
 function update() {
     // arrowwwwws
 
-    
+
     if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.LEFT)) {
         this.player.x -= 3; 
     } else if (this.input.keyboard.isDown(Phaser.Input.Keyboard.KeyCodes.RIGHT)) {
@@ -70,7 +70,7 @@ function update() {
 
 function startQuiz() {
    // starts the quizzz 
-    this.soundguhjgkjjkjjjjjfaadzmnnkkkuguiaaaugiaujju.play('interactionSound'); // FILL IN LATER
+    this.sound.play('interactionSound'); // FILL IN LATER
 
     
         const quizText = this.add.text(200, 150, 'Hey there! what is the first step in entrepreneurship?', {
