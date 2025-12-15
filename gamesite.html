@@ -51,15 +51,96 @@ h1 {
   text-shadow: 0 0 10px #00ffff;
     margin-top: 20px;
 }
+
+/* lil xp bar thing */
+.xp-bar {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: rgba(0,0,0,0.4);
+  color: #0ff;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.xp-fill {
+  height: 6px;
+  width: 40%;
+  background: linear-gradient(90deg,#00ffcc,#00ffff,#ffff00);
+  box-shadow: 0 0 8px #00ffff;
+  border-radius: 999px;
+  margin-left: 8px;
+}
+
+/* quick popup thing */
+.start-popup{
+position: fixed;
+ inset:0;
+ background: rgba(0,0,0,0.7);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index: 999;
+}
+.start-box{
+background:#120022;
+border:2px solid #0ff;
+box-shadow:0 0 20px #0ff;
+padding:18px 22px;
+border-radius:10px;
+color:#fff;
+max-width:320px;
+text-align:center;
+font-size:14px;
+}
+.start-box button{
+margin-top:12px;
+padding:6px 16px;
+border:none;
+border-radius:20px;
+background:#00ffff;
+color:#120022;
+cursor:pointer;
+font-weight:bold;
+}
+.start-box button:hover{background:#fff;}
 </style>
 </head>
 <body>
-<div id="game-container"></div>
+<div id="game-container">
+  <div class="xp-bar">
+    lvl 1 entrepreneur
+    <div class="xp-fill"></div>
+  </div>
+</div>
+
+<!-- lil start popup -->
+<div class="start-popup" id="startPopup">
+  <div class="start-box">
+    <div style="font-weight:bold;margin-bottom:6px;">entrepreneur quest</div>
+    <div style="margin-bottom:8px;">move around & talk to Stock to get biz questions 👀</div>
+    <button id="startBtn">ok got it</button>
+  </div>
+</div>
 
 <!-- phaser cdn -->
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
   
 <!-- main game script -->
 <script src="gamescript.js"></script>
+<script>
+// tiny js just for popup
+const btn = document.getElementById('startBtn')
+const pop = document.getElementById('startPopup')
+if(btn && pop){
+  btn.addEventListener('click',()=>{
+    pop.style.display='none'
+  })
+}
+</script>
 </body>
 </html>
