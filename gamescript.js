@@ -35,6 +35,10 @@ this.player.setInteractive();
 this.npc2 = this.add.rectangle(600, 200, 50, 50, 0xe74c3c);
   this.npc2.setInteractive();
   
+  // third npc
+this.npc3 = this.add.rectangle(500, 450, 50, 50, 0xf39c12);
+  this.npc3.setInteractive();
+  
 this.playerLabel = this.add.text(100, 140, 'You', {
     font: '16px Arial',
     fill: '#ffffff'
@@ -49,6 +53,18 @@ this.npc2Label = this.add.text(600, 240, 'Maya', {
     font: '16px Arial',
     fill: '#ffffff'
   }).setOrigin(0.5);
+  
+  this.npc3Label = this.add.text(500, 490, 'Alex', {
+    font: '16px Arial',
+    fill: '#ffffff'
+  }).setOrigin(0.5);
+  
+  // score system
+this.score = 0;
+  this.scoreText = this.add.text(20, 20, 'Score: 0', {
+    font: '20px Arial',
+    fill: '#00ff00'
+  });
   
   this.welcomeText = this.add.text(400, 30, 'Hello traveler! I am Stock, lets get you on some business stuff!', {
     font: '18px Arial',
@@ -88,6 +104,19 @@ this.npc2.on('pointerout', () => {
     this.npc2.setScale(1);
   });
   
+  // npc3 stuff
+this.npc3.on('pointerdown', () => {
+    startQuiz.call(this, 'alex');
+  });
+  
+this.npc3.on('pointerover', () => {
+    this.npc3.setScale(1.1);
+  });
+  
+  this.npc3.on('pointerout', () => {
+    this.npc3.setScale(1);
+  });
+  
   // arrow indicator
 this.arrow = this.add.triangle(0, 0, 0, 0, 20, 30, -20, 30, 0xff00ff);
   this.arrow.setVisible(false);
@@ -121,11 +150,13 @@ if (this.cursors.up.isDown) {
   if (this.arrow) {
     const dist1 = Math.sqrt(Math.pow(this.player.x - this.npc.x, 2) + Math.pow(this.player.y - this.npc.y, 2));
     const dist2 = Math.sqrt(Math.pow(this.player.x - this.npc2.x, 2) + Math.pow(this.player.y - this.npc2.y, 2));
+    const dist3 = Math.sqrt(Math.pow(this.player.x - this.npc3.x, 2) + Math.pow(this.player.y - this.npc3.y, 2));
     
-    let targetNpc = dist1 < dist2 ? this.npc : this.npc2;
+    const minDist = Math.min(dist1, dist2, dist3);
+    let targetNpc = dist1 === minDist ? this.npc : (dist2 === minDist ? this.npc2 : this.npc3);
     
     // show arrow if far enough
-    if (Math.min(dist1, dist2) > 80) {
+    if (minDist > 80) {
       this.arrow.setVisible(true);
       
       // position above player
@@ -157,6 +188,10 @@ this.quizGroup = this.add.group();
     question = 'What is the most important thing in marketing?';
     answers = ['Social Media', 'Understanding Customers', 'Big Budget'];
     correctAnswer = 'Understanding Customers';
+  } else if (npcType === 'alex') {
+    question = 'What should you do first when starting a business?';
+    answers = ['Get Investors', 'Validate Your Idea', 'Hire Employees'];
+    correctAnswer = 'Validate Your Idea';
   } else {
     question = 'Hey there! What is the first step in entrepreneurship?';
     answers = ['create a Business Plan', 'ask for Funding', 'build a Product'];
@@ -216,10 +251,33 @@ if (this.quizGroup) {
   let resultBg;
   
   if (selectedAnswer === correctAnswer) {
+    // add score
+    this.score += 10;
+    if (this.scoreText) {
+      this.scoreText.setText('Score: ' + this.score);
+    }
+    
+    // particles effect
+    for (let i = 0; i < 8; i++) {
+      const particle = this.add.circle(this.player.x, this.player.y, 5, 0x00ff00);
+      const angle = (Math.PI * 2 * i) / 8;
+      const speed = 100;
+      this.tweens.add({
+        targets: particle,
+        x: this.player.x + Math.cos(angle) * speed,
+        y: this.player.y + Math.sin(angle) * speed,
+        alpha: 0,
+        duration: 500,
+        onComplete: () => particle.destroy()
+      });
+    }
+    
     resultBg = this.add.rectangle(400, 300, 500, 150, 0x27ae60, 0.9);
     let msg = 'Correct! Great business thinking!';
     if (correctAnswer === 'Understanding Customers') {
       msg = 'Correct! Knowing your customers is key!';
+    } else if (correctAnswer === 'Validate Your Idea') {
+      msg = 'Correct! Always validate before building!';
     }
     resultText = this.add.text(400, 300, msg, {
       font: '24px Arial',
@@ -232,6 +290,8 @@ resultBg = this.add.rectangle(400, 300, 500, 150, 0xe74c3c, 0.9);
     let msg = 'Not quite! The first step is to create a Business Plan.';
     if (correctAnswer === 'Understanding Customers') {
       msg = 'Not quite! Understanding customers is most important.';
+    } else if (correctAnswer === 'Validate Your Idea') {
+      msg = 'Not quite! You should validate your idea first.';
     }
     resultText = this.add.text(400, 300, msg, {
       font: '24px Arial',
