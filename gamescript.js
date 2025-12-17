@@ -179,6 +179,10 @@ this.instructions = this.add.text(640, 680, 'Use arrow keys to move | click on N
   
   this.npc.on('pointerdown', () => {
     startQuiz.call(this, 'stock');
+    // quest update
+    if (this.quests.talkToNpcs.current < this.quests.talkToNpcs.target) {
+      this.quests.talkToNpcs.current++;
+    }
   });
   
 this.npc.on('pointerover', () => {
@@ -192,6 +196,10 @@ this.npc.on('pointerover', () => {
   // npc2 interactions
 this.npc2.on('pointerdown', () => {
     startQuiz.call(this, 'maya');
+    // quest update
+    if (this.quests.talkToNpcs.current < this.quests.talkToNpcs.target) {
+      this.quests.talkToNpcs.current++;
+    }
   });
   
   this.npc2.on('pointerover', () => {
@@ -205,6 +213,10 @@ this.npc2.on('pointerout', () => {
   // npc3 stuff
 this.npc3.on('pointerdown', () => {
     startQuiz.call(this, 'alex');
+    // quest update
+    if (this.quests.talkToNpcs.current < this.quests.talkToNpcs.target) {
+      this.quests.talkToNpcs.current++;
+    }
   });
   
 this.npc3.on('pointerover', () => {
@@ -218,6 +230,9 @@ this.npc3.on('pointerover', () => {
   // npc4 + npc5
 this.npc4.on('pointerdown', () => {
     startQuiz.call(this, 'sam');
+    if (this.quests.talkToNpcs.current < this.quests.talkToNpcs.target) {
+      this.quests.talkToNpcs.current++;
+    }
   });
   
 this.npc4.on('pointerover', () => {
@@ -230,6 +245,9 @@ this.npc4.on('pointerover', () => {
   
 this.npc5.on('pointerdown', () => {
     startQuiz.call(this, 'jordan');
+    if (this.quests.talkToNpcs.current < this.quests.talkToNpcs.target) {
+      this.quests.talkToNpcs.current++;
+    }
   });
   
   this.npc5.on('pointerover', () => {
@@ -262,6 +280,40 @@ this.combo = 0;
     fill: '#ff00ff'
   });
   this.comboTimer = 0;
+  
+  // quest system
+this.quests = {
+    talkToNpcs: {current: 0, target: 3, name: 'Talk to 3 NPCs'},
+    collectCoins: {current: 0, target: 5, name: 'Collect 5 coins'},
+    answerQuizzes: {current: 0, target: 2, name: 'Answer 2 quizzes'},
+    reachScore: {current: 0, target: 50, name: 'Reach 50 score'}
+  };
+  
+  // quest sidebar
+this.questBar = this.add.rectangle(50, 200, 200, 400, 0x1a1a1a, 0.85);
+  this.questBar.setStrokeStyle(2, 0x00ffff);
+  this.questTitle = this.add.text(50, 180, 'QUESTS', {
+    font: '20px Arial',
+    fill: '#00ffff'
+  }).setOrigin(0, 0.5);
+  
+  this.questTexts = [];
+  this.questBars = [];
+  let questY = 220;
+  Object.keys(this.quests).forEach((key, idx) => {
+    const q = this.quests[key];
+    const txt = this.add.text(60, questY, q.name, {
+      font: '14px Arial',
+      fill: '#ffffff'
+    });
+    this.questTexts.push(txt);
+    
+    const barBg = this.add.rectangle(60, questY + 20, 180, 12, 0x333333);
+    const barFill = this.add.rectangle(60, questY + 20, 0, 10, 0x00ff00);
+    this.questBars.push({bg: barBg, fill: barFill, quest: q});
+    
+    questY += 50;
+  });
   
   this.cursors = this.input.keyboard.createCursorKeys();
 }
@@ -374,6 +426,10 @@ if (this.cursors.up.isDown) {
           c.setVisible(false);
           this.score += 5;
           if (this.scoreText) this.scoreText.setText('Score: ' + this.score);
+          // quest update
+          if (this.quests.collectCoins.current < this.quests.collectCoins.target) {
+            this.quests.collectCoins.current++;
+          }
         }
       }
     });
@@ -401,6 +457,23 @@ if (this.cursors.up.isDown) {
   if (this.timerText) {
     const secs = Math.floor((this.time.now - this.startTime)/1000);
     this.timerText.setText('time: ' + secs + 's');
+  }
+  
+  // update quest progress
+  if (this.quests.reachScore) {
+    this.quests.reachScore.current = Math.min(this.score, this.quests.reachScore.target);
+  }
+  
+  // update quest bars
+  if (this.questBars) {
+    this.questBars.forEach((bar, idx) => {
+      const q = bar.quest;
+      const percent = Math.min(1, q.current / q.target);
+      bar.fill.width = 180 * percent;
+      if (percent >= 1) {
+        bar.fill.setFillStyle(0x00ff00);
+      }
+    });
   }
 
   // combo decay
@@ -578,6 +651,10 @@ if (this.quizGroup) {
     }
     if (this.comboText) {
       this.comboText.setText(this.combo > 1 ? 'COMBO x' + this.combo + '!' : '');
+    }
+    // quest update
+    if (this.quests.answerQuizzes.current < this.quests.answerQuizzes.target) {
+      this.quests.answerQuizzes.current++;
     }
     
     // particles effect
