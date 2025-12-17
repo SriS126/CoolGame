@@ -171,6 +171,23 @@ this.npc3.on('pointerover', () => {
   // arrow indicator
 this.arrow = this.add.triangle(0, 0, 0, 0, 20, 30, -20, 30, 0xff00ff);
   this.arrow.setVisible(false);
+  this.arrowPulse = 0;
+  this.arrowBaseY = 0;
+  
+  // mini radar thing
+this.radarBg = this.add.rectangle(750, 50, 40, 40, 0x000000, 0.6);
+  this.radarDot1 = this.add.circle(750, 50, 3, 0x2ecc71);
+  this.radarDot2 = this.add.circle(750, 50, 3, 0xe74c3c);
+  this.radarDot3 = this.add.circle(750, 50, 3, 0xf39c12);
+  this.radarPlayer = this.add.circle(750, 50, 2, 0x3498db);
+  
+  // combo counter
+this.combo = 0;
+  this.comboText = this.add.text(20, 100, '', {
+    font: '18px Arial',
+    fill: '#ff00ff'
+  });
+  this.comboTimer = 0;
   
   this.cursors = this.input.keyboard.createCursorKeys();
 }
@@ -264,6 +281,26 @@ if (this.cursors.up.isDown) {
     this.timerText.setText('time: ' + secs + 's');
   }
 
+  // combo decay
+  if (this.comboTimer > 0) {
+    this.comboTimer -= 16;
+    if (this.comboTimer <= 0) {
+      this.combo = 0;
+      if (this.comboText) this.comboText.setText('');
+    }
+  }
+
+  // update radar
+  if (this.radarDot1) {
+    const scale = 0.15;
+    this.radarDot1.x = 750 + (this.npc.x - this.player.x) * scale;
+    this.radarDot1.y = 50 + (this.npc.y - this.player.y) * scale;
+    this.radarDot2.x = 750 + (this.npc2.x - this.player.x) * scale;
+    this.radarDot2.y = 50 + (this.npc2.y - this.player.y) * scale;
+    this.radarDot3.x = 750 + (this.npc3.x - this.player.x) * scale;
+    this.radarDot3.y = 50 + (this.npc3.y - this.player.y) * scale;
+  }
+
   if (this.playerLabel) {
     this.playerLabel.x = this.player.x;
     this.playerLabel.y = this.player.y + 40;
@@ -282,13 +319,27 @@ if (this.cursors.up.isDown) {
     if (minDist > 80) {
       this.arrow.setVisible(true);
       
-      // position above player
+      // dynamic color based on distance
+      const distPercent = Math.min(1, (minDist - 80) / 300);
+      const r = Math.floor(255 * distPercent);
+      const g = Math.floor(255 * (1 - distPercent));
+      this.arrow.setFillStyle(Phaser.Display.Color.GetColor(r, g, 255));
+      
+      // pulse animation
+      this.arrowPulse += 0.1;
+      const pulseOffset = Math.sin(this.arrowPulse) * 8;
+      
+      // position above player with bounce
       this.arrow.x = this.player.x;
-      this.arrow.y = this.player.y - 60;
+      this.arrow.y = this.player.y - 60 + pulseOffset;
       
       // rotate to point at npc
       const angle = Math.atan2(targetNpc.y - this.player.y, targetNpc.x - this.player.x);
       this.arrow.rotation = angle + Math.PI / 2;
+      
+      // scale pulse
+      const scale = 1 + Math.sin(this.arrowPulse * 1.5) * 0.2;
+      this.arrow.setScale(scale);
     } else {
       this.arrow.setVisible(false);
     }
@@ -374,10 +425,16 @@ if (this.quizGroup) {
   let resultBg;
   
   if (selectedAnswer === correctAnswer) {
-    // add score
-    this.score += 10;
+    // add score + combo
+    this.combo++;
+    this.comboTimer = 3000;
+    const points = 10 + (this.combo * 2);
+    this.score += points;
     if (this.scoreText) {
       this.scoreText.setText('Score: ' + this.score);
+    }
+    if (this.comboText) {
+      this.comboText.setText(this.combo > 1 ? 'COMBO x' + this.combo + '!' : '');
     }
     
     // particles effect
