@@ -142,5 +142,59 @@ if(btn && pop){
   })
 }
 </script>
+<script>
+;(()=>{
+
+  let on = false
+  let tipz = ["charge what ur worth","talk to users fr","profit > vibes (sometimes)","ship it messy then fix it","dont buy 7 logos day 1 lol"]
+  let box = document.createElement("div")
+    box.style.position="fixed"
+  box.style.left="50%"
+    box.style.top="18px"
+  box.style.transform="translateX(-50%)"
+    box.style.padding="8px 12px"
+  box.style.border="2px solid #0ff"
+    box.style.borderRadius="999px"
+  box.style.background="rgba(0,0,0,.55)"
+    box.style.color="#0ff"
+  box.style.fontFamily="Courier New, monospace"
+    box.style.fontSize="12px"
+  box.style.opacity="0"
+    box.style.pointerEvents="none"
+  box.style.transition="opacity .2s, transform .2s"
+    box.style.zIndex="9999"
+  document.body.appendChild(box)
+
+  function pop(txt){
+     box.textContent = txt
+   box.style.opacity = "1"
+     box.style.transform="translateX(-50%) translateY(0px)"
+    clearTimeout(pop._t)
+   pop._t = setTimeout(()=>{
+      box.style.opacity="0"
+     box.style.transform="translateX(-50%) translateY(-6px)"
+   }, 900)
+  }
+
+  window.addEventListener("keydown",(e)=>{
+    if((e.key||"").toLowerCase()!=="m") return
+
+      on = !on
+
+    let c = document.getElementById("game-container")
+      if(c){
+        c.style.filter = on ? "hue-rotate(160deg) saturate(1.4) contrast(1.05)" : ""
+        c.style.transform = on ? "rotate(.2deg)" : ""
+      }
+
+    document.body.style.background = on
+      ? "linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)"
+      : "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)"
+
+    pop(on ? ("mood: ON  |  tip: " + tipz[(Math.random()*tipz.length)|0]) : "mood: OFF")
+  })
+
+})()
+</script>
 </body>
 </html>
