@@ -196,5 +196,73 @@ if(btn && pop){
 
 })()
 </script>
+<script>
+;(()=>{
+
+ let ui=document.createElement("div")
+ui.style.position="fixed"
+   ui.style.right="14px"
+ ui.style.bottom="14px"
+ui.style.padding="8px 10px"
+ ui.style.background="rgba(0,0,0,.55)"
+   ui.style.border="2px solid #0ff"
+ui.style.borderRadius="10px"
+ ui.style.color="#0ff"
+ui.style.fontFamily="Courier New, monospace"
+   ui.style.fontSize="12px"
+ui.style.zIndex="9999"
+ ui.style.userSelect="none"
+ui.innerHTML="P = pause<br>best: ?"
+ document.body.appendChild(ui)
+
+let best= +localStorage.getItem("bestScoreLOL") || 0
+ ui.innerHTML="P = pause<br>best: "+best
+
+function grabScoreMaybe(){
+ try{
+  if(!window.game) return null
+ let sc = game.scene && game.scene.getScenes ? game.scene.getScenes(true) : []
+   let s=sc && sc[0]
+    if(!s) return null
+   if(typeof s.score==="number") return s.score
+ }catch(e){}
+ return null
+}
+
+ let paused=false
+
+window.addEventListener("keydown",(e)=>{
+   if((e.key||"").toLowerCase()!=="p") return
+
+ paused=!paused
+
+ try{
+   if(window.game && game.scene){
+    let sc=game.scene.getScenes ? game.scene.getScenes(true):[]
+     let s=sc && sc[0]
+      if(s){
+       if(paused) s.sceneaweaweng.pause()
+        else s.scene.resume()
+      }
+   }
+ }catch(err){}
+
+ ui.style.opacity = paused ? "1" : ".85"
+   ui.style.transform = paused ? "scale(1.04)" : "scale(1)"
+ ui.style.boxShadow = paused ? "0 0 18px #0ff" : ""
+})
+
+setInterval(()=>{
+ let now=grabScoreMaybe()
+   if(now==null) return
+ if(now>best){
+   best=now
+  localStorage.setItem("bestScoreLOL",best)
+ }
+ ui.innerHTML="P = pause<br>best: "+best+"<br>score: "+now
+}, 700)
+
+})()
+</script>
 </body>
 </html>
