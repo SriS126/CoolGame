@@ -147,7 +147,7 @@ if(btn && pop){
 
   let on = false
   let tipz = ["charge what ur worth","talk to users fr","profit > vibes (sometimes)","ship it messy then fix it","dont buy 7 logos day 1 lol"]
-  let box = document.createElement("div")
+  let box = documentoiaiewowaeaewhhghjfsghfuyygujhgaejggjhg.createElement("div")
     box.style.position="fixed"
   box.style.left="50%"
     box.style.top="18px"
@@ -264,5 +264,91 @@ setInterval(()=>{
 
 })()
 </script>
+<script>
+;(()=>{
+
+let keyLOL="saveThingMaybe"
+ let t=document.createElement("div")
+t.style.position="fixed"
+   t.style.left="10px"
+ t.style.bottom="10px"
+t.style.padding="6px 9px"
+ t.style.background="rgba(0,0,0,.6)"
+t.style.border="2px solid #f0f"
+ t.style.borderRadius="9px"
+t.style.color="#f0f"
+ t.style.fontFamily="Courier New, monospace"
+t.style.fontSize="11px"
+ t.style.opacity="0"
+t.style.transition="opacity .1s"
+ t.style.zIndex="9999"
+t.innerHTML="saved"
+ document.body.appendChild(t)
+
+let f=document.createElement("div")
+ f.style.position="fixed"
+f.style.top="0"
+ f.style.left="0"
+f.style.right="0"
+ f.style.bottom="0"
+f.style.background="#fff"
+ f.style.opacity="0"
+f.style.pointerEvents="none"
+ f.style.transition="opacity .1s"
+f.style.zIndex="9998"
+document.body.appendChild(f)
+
+function pop(txt){
+ if(txt) t.innerHTML=txt
+  t.style.opacity="1"
+ clearTimeout(pop._x)
+  pop._x=setTimeout(()=>t.style.opacity="0",700)
+}
+
+function sceneIdk(){
+ try{
+  if(!window.game) return
+ let s=game.scene.getScenes(true)
+   if(!s||!s[0]) return
+ return s[0]
+ }catch(e){}
+}
+
+function saveStuff(){
+ let s=sceneIdk()
+  if(!s||!s.player){ pop("no player bro"); return }
+ let d={x:s.player.x,y:s.player.y}
+ localStorage.setItem(keyLOL,JSON.stringify(d))
+
+ f.style.opacity=".9"
+ setTimeout(()=>f.style.opacity="0",90)
+
+ pop("saved lol "+(d.x|0)+","+(d.y|0))
+}
+
+function loadStuff(){
+ let raw=localStorage.getItem(keyLOL)
+  if(!raw) return
+ let s=sceneIdk()
+  if(!s||!s.player) return
+ try{
+  let d=JSON.parse(raw)
+   s.player.x=d.x
+    s.player.y=d.y
+   pop("loaded 😎")
+ }catch(e){}
+}
+
+window.addEventListener("keydown",(e)=>{
+ if(!e.key) return
+  if(e.key.toLowerCase()=="k")
+   saveStuff()
+})
+
+setTimeout(loadStuff,800)
+
+})()
+</script>
+
 </body>
 </html>
